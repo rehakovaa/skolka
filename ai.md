@@ -1,7 +1,30 @@
+#### intelligent agents
+- ty rozdílné typy
+#### a*
+- když je a* přípustný, tak je optimální v tree search, když je a* monotónní, tak je to optimální v graph search
+
+#### csp 
+- problem solving techniques je backtracking
+- fail first a suceed first (to je u variable ordering)
+- forward checking je kontrola pouze dvojic vrcholu a look ahead je kontrola pro všechny vrcholy
+
+### logika
+- knowledge based agent 
+# dobré ráno
+### plánování 
+- transition function - prostě co se změní po akci
+- akce je proveditelná - když kladný efekt je podmnožinu stavu 
+- relevance - kdydž se nějak přiblížím k cíli a zároveň nekazím už existující efekty
+- regression set - od cíle a akce odečteme akci a přidáme předpoklady 
+    - když děláme backward planning, tak bereme jenom ty vhodné stavy, ale hůř se tam dělá heuristika 
+- v kalkulu hledáme stav, ve kterém jsou spolněné podmínky cíle
+
 #### bayesovká síť
 -  je to dag, kde každá proměnná je vrchol a je napojená na svého rodiče, pokud je na něm závislá (hrana: chřipka -> horečka)
     - každý uzel má podmíněnou pravděpodobnost ke svým rodičům
 - vyjadřuje full joint probability distribution tak, aby to bylo víc kompaktní a přehlednější -> ne velká tabulka, ale dag
+
+- každý vrchol má vlastní tabulku, kde jsou pouze ty vtahy, co má s rodiči
 
 - využíváme zde řetězové pravidlo (viz. sešit) 
     - příklad: P(déšť, kluzká silnice, nehoda) = P(déšť).P(kluzká silnice|déšť).P(nehoda|kluzká silnice)
@@ -38,6 +61,8 @@ $C→S→T$ pak $P(C,S,T) = P(C)*P(S|C)*P(T|S)$
         - víme, že $alarm = True$, tak vyhodíme ty vzorky, co mají $alarm=False$
     - využívá se na to monte carlo technika
 
+    - udělám podle pravděpodobností monte carlo metodou náhodné případy a vyhodíme ty, co nás nezajímají
+    - při váženém vzorkování si řekneme, že earthquake je true, ale musíme to poton provážit
 
 ### probabilistic reasoning over time
 - tohle se týká modelování systémů, které se vyvíjejí v čase, přičemž nemusíme znát jejich vnitřní stav tak dobře, ale máme pozorování
@@ -58,7 +83,7 @@ $C→S→T$ pak $P(C,S,T) = P(C)*P(S|C)*P(T|S)$
     ![alt text](image-1.png)
 
 #### basic inference tasks
-- filtering - výpočet aktuálního stavu na základě všech předchozích stavů aneb 'kde teď jsem??'
+- filtering - výpočet aktuálního stavu na základě všech předchozích pozorování aneb 'kde teď jsem??'
     - je potřeba jít od začátku, používá se rekurzivně pomocí předchozího výsledku 
     - $f_{1:0} = P(X_0)$ a poté se jde dál jako $f_{1:t} = P(X_t|e_{1:t}) $ a $f_{1:t+1} = \alpha *forward(f_{1:t},e_{t+1})$
         - kde to první je pravděpodobnost $X_0$
@@ -125,6 +150,10 @@ $C→S→T$ pak $P(C,S,T) = P(C)*P(S|C)*P(T|S)$
     - v DBN ale nemusíme modelovat přechod mezi všemi kombinacemi 
         - rozdělujeme totiž ten obrovský problém na malé tabulky, kde ty proměnné modeluju samostatně a každá má svůj vlastní lokální přechodový model
 
+#### hidden model markov
+- ten sensor matice je pro každý čas
+- pro každý čas si rozkopíruju znovu a slepím to dohromady
+- tam je matice SxS, která je všechno se vším
 ### decision making
 #### formalize rationality via maximum expected utility principle
 - racionální agent je takový, který se rozhoduje tak, aby maximalizoval svou očekávánou užitečnost - zvolí tu akci, která má největší očekávaný přínost
@@ -178,6 +207,8 @@ $C→S→T$ pak $P(C,S,T) = P(C)*P(S|C)*P(T|S)$
 - agent zde přesně nevidí stav, nemůžeme přímo využít $\pi(s)$, protože neví, co $s$ je
 - pořád budeme mít transition model, akce, odměny a sensor model, ale nevím, co přesně je náš nynější stav, a na to použijeme odhady (belief states)
     - vyřešíme MDP přes belief states
+
+- nejdřív uděláme ten filtering, abych zjistila, kde jsem, a pak teprve spočítám ty utility
 
 ### game theory
 #### explain core properties of environment and information needed to apply adversarial search
@@ -265,3 +296,114 @@ $C→S→T$ pak $P(C,S,T) = P(C)*P(S|C)*P(T|S)$
 
 ### machine learning
 #### define and compare types of learning
+- klasifikace (přiřadí třídu) a regrese (odhadne číselnou hodnotu)
+- supervised learning (učení s učitelem), kde model se učí ze značených dat, každý vstup má u sebe i správný výstup (naučit se rozpoznávat emaily jako spam)
+- unsupervised learning - data nemají štítky, učí se poznávat skryté struktury nebo vzory v datech 
+- reinforcement learning - cilem je maximalizovat dlouhodobou odměnu (cukr a bič)
+- oklamova břitva říká, že pokud máme víc hypotéz, vybrat tu nejjednodušší 
+#### decision trees
+- dostane vektor vstupu a vrátí jeden výstup
+- je to prostě strom, kde každý uzel je nějaký test, podle kterého se rozhoduje, a větve jsou možné odpovědi
+    - listy jsou ty výsledky 
+- strom se staví rekurzivně, kdy vybereme nejdůležitější test a values rozdělíme podle testů, pokud jsou ty hodnoty ve stejné kategorii, tak hotovo, ale jinak dělíme dál 
+    - vybereme ten test s největším informačním ziskem, tedy hledáme ten test, s nímž se zmenší entropie co nejvíce (reálně to nějak rozdělíme a k něčemu dospějeme)
+    - entropie:  $Entropy(S)=−∑p_i*log_2p_i$
+    - informační zisk: $Gain(S,A)=Entropy(S)−∑\frac{∣S∣}{∣S_v|}⋅Entropy(S_v)$
+
+#### logical models
+- učení logických modelů mi říká, jak správně získat hypotézu, která mi popisuje rozdělení mezi pozitivními a negativními příklady
+- chceme jednu ultimátní logickou formuli, a raději jednu hypotézu než všechny disjunkce
+- false positive: model říká ano, ale skutečnost je to ne
+- fase negative: je to naopak
+- current best hypothesis 
+    - pamatuju si jenom jednu hypotézu, a tu opravuju
+        - pokud je example konzistentní, nic nedělám
+        - pokud není, tak pokud je to false negativ (je moc přísná), tak odeberu konjukce (podmínky) anebo přidám disjunkce (možnosti)
+        - false positive je na tom obráceně
+- version space learning
+    - udržuje si celou množinu hypotéz, které jsou konzistentní a tvoří se nejobecnější hypotéza (true všemu) a nejužší (false všemu)
+        - pokud false negative pro G-set, tak zahodíme tu část, s kterou se kryje
+        - pokud je to false positive, tak $G_i$ nahradíme přesnější hypotézou, která už bude dávat false (je to až moc benevolentní, tak to zpřesníme)
+
+        - false negative pro S-set, tak ji zobecníme (moc přísné, zjemníme)
+        - false positive, tak ji zahodíme (říká ano, i když nemá, má to být přísné a není)
+
+#### linear regression
+- metoda pro předpověď číselné hodnoty a chceme najít přímku, která sedí na trénovací data
+    - hledáme lineární funkci, která má nejmenší chybu (je to kvadrát)
+    - $y = w_1*x + w_0$
+- lineární klasifikace je přímka, která nám dokáže rozdělit body na dvě části tak, jak chceme
+
+- neuronové sítě je zobecnění lineárních modelů, které umožňuje nelineární rozhodování 
+- architektura je vstupní vrstva, skryté vrstvy (neuronové uzly) a výstupní vrstva
+    - každý neuron počítá $\sum w_i*x_i + b$, kde $x_i$ jsou vstupy a $w_i$ jsou váhy, které se síť učí a b je posun, aby síť nebyla závislá jen na vstupech
+- potom aplikujeme aktivační funkci, která dodá nelinearitu a neuronky přestanou být jen vrstvy obyčejné lineární regrese
+
+- ještě to backtrack něco
+- dostanu nějaký výstup na konci a spočítám chybu s tím, co jsme měli dostat a tuhle chybu propaguju zpět pomocí řetězového pravidla a upravuju váhy tak, aby se mi ta chyba snížila
+    - $Loss = 1/2*(y_{pred}-y_{true})^2$
+    - kde tu váhu $w$ zjistím tak, že od ní odečtu derivaci $Loss$ podle $w$ vynásobenou rychlostí toho učení
+        - gradient mi říká, jak moc změnit tu váhu
+
+#### parametrický a neparametrický model
+- parametrický model je takový, kde máme natrénovanou síť a už nepotřebujeme data, protože ta máme reprezentována vahami
+    - model s pevnou strukturou a málo parametrami
+    - lineární regrese
+    - rychle a dobře funguje na menších datehc, ale hůř modeluje složitější vztahy
+- v neparametrickém pořád potřebujeme data
+    - přizpůsobuje se datum, flexibilní a nepotřebuje trénink
+    - pomalejší a potřebuje víc paměti
+- k examples
+    - máme hodnotu x a my chceme odhadnout, jakou výstupní hodnotu bude mít
+        - najdu k nejbližích sousedů, podívám se na jejich výstupní hodnoty (pokud budou většinově pes, tak i x je pes, když to bude hodnota, tak zprůměruju ceny)
+        - na určení vzdálenosti použijeme buď manhattanskou nebo euklidovskou vzdálenost (minkovwskou)
+    - je potřeba ještě ty hodnoty normalizovat, aby velká čísla nedominovala výpočtu vzdálenosti
+
+- support vector machine je technika v supervised learningu hlavně pro klasifikaci (dobré výsledky hned)
+    - chci najít separátor mezi dvěma typy dat a chci, aby ta čára byla co nejdéle od obou skupin
+    - ty nejbližší bodíky budou support vectors (ti jsou nejdůležitější)
+    - když nepůjde namapovat, tak použiju kernel funkci a dostanu to do vyšší dimenze, kde už to půjde rozdělit
+
+#### bayesovské učení
+- máme několik balíčků a my chceme přijít na to, který balíčka to je 
+- pro každý balíček máme přiřazenou nějakou pravděpodobnost, a tu měníme podle toho, jaké bonbóny jsme snědli - využíváme bayesův vzorec
+    - $P(h_i|d) = \alpha * P(d|h_i)*P(h_i)$
+- a abychom určili, jaký to bude další bonbon, tak uděláme vážený průměr přes pravděpodobnosti pytlů
+- maximum likelyhood mi říká, jaký je tam poměr v tom pytly podle toho, jaké si vytahujeme bonbóny
+    - tohle je bayesovská síť s jedním vrcholem
+    - vytáhneme n bonbónu, z toho $c$ jsou cherries a $l$ jsou limes a chceme zjistit poměr v tom pytli: $P(d|h_p) = p^c(1-p)^l$, kde $p$ je pravděpodobnost, že vytáhneme bonbon cherries
+    - chceme to maximalizovat, tak to hodíme do logaritmu a zderivuju podle $p$, a hledám, kde to rovno nule
+- učení se parametrů je to, že chceme odhadnout ty pravděpodobnosti mezi rodiči a syny 
+    - nevidíme ale všechny proměnné, a tak využijeme EM algoritmus
+    - začneme s tím, že prostě určíme nějaké parametry 
+    - z toho spočteme hodnoty těch skrytých proměnných a aktualizujeme tyto parametry podle těchto odhadů 
+    - tohle děláme, dokud se to neustálí 
+
+#### reinforcement learning
+- agent se učí chováním ve světě prostřednictvím odměn
+    - máme agenta a prostředí, potom možné stavy, které mohou nastat a akce, které může udělat
+        - agent dělá přechodový model podle odměn a trestů
+        - jak dobrý je který stav
+
+##### pasivní učení
+- pasivní učení je to, že má danou policy (ví, co v tom stavu má udělat za akci), ale nemá transition model ani reward funkci
+    - chce se naučit utility funkci a jak ta policy je dobrá
+    - agent udělá sekvenci stavů a akcí a získá nějaké odměny a my po sekvenci těch akcí sečteme ty odměny a uděláme pro každý stav průměr přes ty hodnoty
+        - je to ale na nic, protože ty hodnoty jsou na sobě závislé, a to DUE neřeší 
+    - potom máme ADP, které využívá bellmanovu rovnici k výpočtu užitečnosti
+        - využiju bellmanovu rovnici, kdy si pamatuju, že nějaký stav má odměnu, kterou si zapamuju a pomocí value iteration si dopočítám užitečnost stavů 
+        - když řekneme, že jdeme desetkrát doleva a doleva jdeme sedmkrát, tak tu znalost právě využijeme v té bellmanově rovnici
+        - zpřesňuje se to tím, jak tu akci opakujeme
+    - potom máme temporal difference learning
+        - učí se užitečnost stavů z přímého sledování přechodů mezi stavy
+    -
+- model base se učí z modelu a používá plánování 
+- model free se učí přímo z reálných zkušeností
+
+##### aktivní učení
+- aktivní agent využívá znovu bellmanovu rovnici 
+- on ale ty cesty objevuje sám
+    - greedy agent - nikdy nezkusí jinou, takže nenalezne lepší (takový agent exploatuje, ale neexploruje)
+- když agent jenom exploruje, nevyužije to, co se naučil, a pokud jenom exploatuje, nenaučí se nic nového (lepšího)
+    - buď můžeme třeba s pravděpodobností $1/t$ vyzkoušet novou akci a potom exploatovat
+    - anebo těm neprozkoumaným akcím dám vyšším váhu, takže si je vyberu spíš
