@@ -26,10 +26,10 @@ konečný automat
     - součin automatů: stav bude každý s každým, přechody budou ze stavu tam, kam vedly původní přechody a nový vstupní bude ten stav, kde jsou oba vstupní ty dva původní
 
 
-    - iterační lemma: mějme jazyk L, pak existuje konstanta $n \in \N$ tž. každé slovo $w$ delší než n lze rozdělit na tři části $w=xyz$: 
+    - iterační lemma: mějme jazyk L, pak existuje konstanta $n \in \N $ tž. každé slovo $w$ delší než n lze rozdělit na tři části $w=xyz$: 
         - $y \not = \epsilon$
         - $|xy| \leq n$
-        - $\forall k \in \N_0$, slovo $xy^kz$ je také v L
+        - $\forall k \in \N_0 $, slovo $xy^kz$ je také v L
 
         - důkaz: máme jazyk L s DFA, který má $n$ stavů a vezmeme slovo, které je delší než n, takže dvě písmena budou muset být ve stejném stavu
             - x bude ta část slova do $a_i$, y bude od $a_{i+1}$ do $a_j$ a z bude zbytek
