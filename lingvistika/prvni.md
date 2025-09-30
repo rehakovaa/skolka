@@ -1,5 +1,18 @@
 ### přednáška 1
 
+#### info na začátek
+- zkouška je písemná 
+    - krátké otázky (8 až 10)
+    - popis metod
+    - často *vysvětlete*
+- předtermín 6.1. a poté v polovině března 
+- když na nějakou otázku neodpovíme, vypadá to, že jsme nečetli slidy
+- otázky nejsou těžké (podle něho)
+- literatura v sisu
+    - slidy nejsou dostačující pro otázky typu *vysvětlete*
+        - nějaká kniha se na to hodí (churovský a marteen????)
+        
+
 #### úvod
 - obor zabývající se popisem vlastnostní přirozených jazyků a jejich automatickým zpracováním (automatické systémy, které modelují přirozeného jazyka)
     - automatický překlad byl na nic, dokud se do toho nezapojili matematické metody 
@@ -103,3 +116,7 @@
     - tohle není páter emmons, ale je to otec emmonsové (vyhrála olympiádu ve střelbě v 2008)
         - zrušit 'ová', není to přivlastňovací význam, jinak by tam bylo 'a' a ne 'á' (kdyby to bylo přivlastňovací, tak je to hajného a ne hajná)
             - tatinkova x tatínková
+- *honila hluchého psa, zasedl ji velbloud. žena v usa si pomohla kousnutím do varlat*
+- *padlým námořníkům se znovu rozsvítilo*
+
+- jazyk je z velké části pravidelný
